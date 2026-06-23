@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Péče o klienty — UNIQA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/uniqa.css">
+  <style>
+    :root {
+      --blue:       #005ca9;
+      --blue-dark:  #003566;
+      --blue-light: #eef2fa;
+      --blue-mid:   #d5deee;
+      --green:      #03b675;
+      --text:       #1b1b1b;
+      --muted:      #617384;
+      --white:      #fff;
+      --radius:     16px;
+    }
+    body { font-family: 'Lato', Arial, sans-serif; color: var(--text); }
+    @media (min-width: 992px) {
+      .pece-o-klienty-item > ul.pece-o-klienty-mobile { display: none !important; }
+    }
+
+    /* Hero top: text + photo */
+    .pece-hero__top { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding-bottom: 52px; }
+    @media (max-width: 991px) { .pece-hero__top { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* Left: text */
+    .pece-hero__text { position: relative; z-index: 2; }
+    .pece-hero__overline {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: var(--blue); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .pece-hero__overline::before, .pece-hero__overline::after {
+      content: ''; display: block; height: 1px; width: 28px; background: var(--blue); opacity: .35;
+    }
+    .pece-hero h1 {
+      font-size: clamp(1.85rem, 4vw, 2.75rem); font-weight: 900;
+      color: var(--blue-dark); line-height: 1.12; margin: 0 0 18px; letter-spacing: -.3px;
+    }
+    .pece-hero h1 em { font-style: normal; color: var(--blue); }
+    .pece-hero__sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.65;
+      font-weight: 400; margin: 0 0 28px;
+    }
+    .pece-hero__trust {
+      display: flex; flex-wrap: wrap; gap: 10px 20px;
+      font-size: 0.82rem; font-weight: 700; color: var(--muted);
+    }
+    .pece-hero__trust-item { display: flex; align-items: center; gap: 6px; }
+    .pece-hero__trust-item i { color: var(--green); font-size: 0.85rem; }
+
+    /* Right: photo */
+    .pece-hero__photo {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4 / 3; background: linear-gradient(140deg, #c8d8ee 0%, var(--blue-mid) 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 12px 40px rgba(0,53,102,.18);
+    }
+    .pece-hero__photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .pece-hero__photo-placeholder {
+      text-align: center; color: var(--blue); opacity: .55; padding: 20px;
+    }
+    .pece-hero__photo-placeholder i { font-size: 3rem; display: block; margin-bottom: 10px; }
+    .pece-hero__photo-placeholder span { font-size: 0.85rem; font-weight: 600; }
+    .pece-hero__photo-badge {
+      position: absolute; bottom: 16px; left: 16px;
+      background: rgba(255,255,255,.9); backdrop-filter: blur(8px);
+      border-radius: 10px; padding: 10px 16px;
+      font-size: 0.8rem; font-weight: 700; color: var(--blue);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pece-hero__photo-badge i { color: var(--green); }
+
+    /* QUICK-JUMP GRID */
+    /* QUICK-JUMP GRID */
+    .pece-jumps {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+      position: relative; z-index: 2;
+    }
+    @media (max-width: 991px) { .pece-jumps { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 575px) { .pece-jumps { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+    .pece-jump {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      background: #fff; border-radius: var(--radius);
+      padding: 20px 12px 18px; text-decoration: none !important;
+      color: var(--blue) !important; font-size: 0.81rem; font-weight: 700;
+      line-height: 1.3; text-align: center; border: 2px solid transparent;
+      box-shadow: 0 2px 12px rgba(0,0,0,.15);
+      transition: border-color .18s, box-shadow .18s, transform .15s;
+    }
+    .pece-jump:hover {
+      border-color: var(--blue-dark); box-shadow: 0 6px 24px rgba(0,0,0,.22);
+      transform: translateY(-2px); color: var(--blue-dark) !important;
+    }
+    .pece-jump__icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--blue-light); display: flex; align-items: center;
+      justify-content: center; font-size: 1.15rem; color: var(--blue); flex-shrink: 0;
+    }
+
+    /* ANCHOR NAV */
+    .pece-anchor-nav {
+      position: sticky; top: 0; z-index: 900; background: var(--white);
+      border-bottom: 1px solid var(--blue-mid); box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .pece-anchor-nav__inner {
+      display: flex; align-items: center; gap: 4px; padding: 8px 0;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .pece-anchor-nav__inner::-webkit-scrollbar { display: none; }
+    .pece-anchor-pill {
+      display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
+      padding: 7px 16px; border-radius: 100px; font-size: 0.83rem; font-weight: 700;
+      color: var(--muted) !important; text-decoration: none !important;
+      background: transparent; border: 1.5px solid transparent; transition: all .18s;
+    }
+    .pece-anchor-pill i { font-size: 0.82rem; }
+    .pece-anchor-pill:hover, .pece-anchor-pill.active {
+      color: var(--blue) !important; background: var(--blue-light); border-color: var(--blue-mid);
+    }
+
+    /* SECTIONS */
+    .pece-section { padding: 56px 0; }
+    .pece-section + .pece-section { border-top: 1px solid var(--blue-mid); }
+    .pece-section.bg-light { background: var(--blue-light); border-top: none !important; }
+    .pece-section h2 {
+      font-size: 1.6rem; font-weight: 900; color: var(--text);
+      margin: 0 0 6px; letter-spacing: -.2px;
+    }
+    .pece-section .section-lead { color: var(--muted); font-size: 1rem; margin: 0 0 32px; line-height: 1.55; }
+
+    /* SPRÁVA — GATEWAY CARD */
+    .sprava-gateway {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);
+      border-radius: var(--radius); padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; margin-bottom: 36px; flex-wrap: wrap;
+    }
+    .sprava-gateway__text h3 { color: #fff; font-size: 1.2rem; font-weight: 700; margin: 0 0 7px; }
+    .sprava-gateway__text p { color: rgba(255,255,255,.76); font-size: 0.92rem; margin: 0; line-height: 1.5; }
+    .sprava-gateway__btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--white); color: var(--blue) !important; font-weight: 700;
+      font-size: 0.93rem; padding: 12px 24px; border-radius: 8px;
+      text-decoration: none !important; white-space: nowrap; flex-shrink: 0;
+      transition: background .18s, transform .15s;
+    }
+    .sprava-gateway__btn:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+    /* SERVICE CARDS */
+    .md-service-card { height: 100%; display: flex; flex-direction: column; border-radius: var(--radius) !important; }
+    .md-service-card__content { flex: 1; display: flex; flex-direction: column; }
+    .md-service-card__content .btn { margin-top: auto; }
+    .md-service-card__badge {
+      background: var(--blue); color: #fff; font-size: 0.68rem; font-weight: 700;
+      padding: 3px 9px; border-radius: 4px; display: inline-block;
+      margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px;
+    }
+
+    /* PROMO BANNER */
+    .promo-banner {
+      background: var(--blue); border-radius: var(--radius); padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+    }
+    .promo-banner__left h2 { color: #fff; margin: 0 0 10px; }
+    .promo-banner__left p { color: rgba(255,255,255,.8); margin: 0; font-size: 1rem; }
+    .promo-banner__left strong { color: #fff; }
+    .promo-badge {
+      display: inline-block; background: var(--green); color: #fff;
+      font-size: 0.73rem; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 14px;
+    }
+    .btn-white {
+      background: #fff; color: var(--blue) !important; font-weight: 700; padding: 13px 26px;
+      border-radius: 8px; text-decoration: none !important; font-size: 0.97rem; white-space: nowrap;
+      transition: background .18s, transform .15s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-white:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+    /* BENEFIT CARDS */
+    .benefit-card {
+      border-radius: var(--radius); overflow: hidden; height: 100%;
+      min-height: 260px; display: flex; flex-direction: column;
+      position: relative; background-size: cover; background-position: center;
+      border: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .benefit-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to top, rgba(0,20,50,.95) 0%, rgba(0,20,50,.7) 50%, rgba(0,20,50,.35) 100%);
+    }
+    .benefit-card:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0,0,0,.28); }
+    .benefit-card__body {
+      position: relative; z-index: 2; margin-top: auto; padding: 22px 22px 20px;
+    }
+    .benefit-card h3 { font-size: 1.2rem; font-weight: 700; color: #fff; margin: 0 0 8px; }
+    .benefit-card p { color: rgba(255,255,255,.85); font-size: 0.97rem; margin: 0 0 16px; line-height: 1.5; }
+    .benefit-card .btn-benefit {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; font-weight: 700; color: #fff !important;
+      text-decoration: underline !important; text-underline-offset: 3px;
+      background: none; border: none; padding: 0; cursor: pointer;
+      transition: opacity .15s;
+    }
+    .benefit-card .btn-benefit:hover { opacity: .75; }
+
+    /* CONTACT CARDS */
+    .kontakt-card {
+      background: var(--white); border-radius: var(--radius); padding: 26px;
+      border: 1.5px solid var(--blue-mid); display: flex; align-items: flex-start; gap: 16px;
+      height: 100%; transition: border-color .18s, box-shadow .18s;
+    }
+    .kontakt-card:hover { border-color: var(--blue); box-shadow: 0 4px 14px rgba(0,92,169,.1); }
+    .kontakt-card__icon {
+      width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px;
+      background: var(--blue-light); display: flex; align-items: center;
+      justify-content: center; font-size: 1.15rem; color: var(--blue);
+    }
+    .kontakt-card h3 { font-size: 1rem; font-weight: 700; margin: 0 0 5px; }
+    .kontakt-card p { color: var(--muted); font-size: 0.88rem; margin: 0 0 12px; }
+    .ext-icon { font-size: 0.65em; vertical-align: middle; margin-left: 3px; opacity: .7; }
+
+
+    /* "Co hledáte" label */
+    .pece-search-label {
+      display: flex; align-items: center; gap: 14px;
+      color: rgba(255,255,255,.75); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 16px;
+    }
+    .pece-search-label::after {
+      content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.2);
+    }
+    .pece-search-label i { color: rgba(255,255,255,.75); }
+
+    /* Anchor nav label */
+    .pece-anchor-label {
+      font-size: 0.75rem; font-weight: 700; color: var(--muted);
+      letter-spacing: .8px; text-transform: uppercase; white-space: nowrap;
+      padding-right: 8px; border-right: 1px solid var(--blue-mid); margin-right: 4px;
+    }
+
+    /* Hero bottom band */
+    .pece-hero__bottom {
+      background: var(--blue);
+      padding: 36px 0 44px;
+    }
+
+    @media (max-width: 767px) {
+      .sprava-gateway { padding: 22px 20px; }
+      .promo-banner { padding: 28px 22px; }
+    }
+
+    /* ===== SPRÁVA KARET ===== */
+    .sprava-section { background: var(--white); }
+    .sprava-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; flex-wrap: wrap; }
+    .sprava-header h2 { margin: 0 0 8px; }
+    .sprava-header .section-lead { margin: 0; }
+    .sprava-login-btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--blue); color: #fff !important;
+      font-weight: 700; font-size: 0.92rem; padding: 12px 22px;
+      border-radius: 8px; text-decoration: none !important; white-space: nowrap;
+      transition: background .18s, transform .15s; flex-shrink: 0;
+    }
+    .sprava-login-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    .sprava-card {
+      background: var(--white); border-radius: var(--radius);
+      border: 1.5px solid var(--blue-mid); padding: 20px 20px 18px;
+      height: 100%; display: flex; flex-direction: column;
+      transition: border-color .18s, box-shadow .2s, transform .15s;
+    }
+    .sprava-card:hover { border-color: var(--blue); box-shadow: 0 6px 20px rgba(0,92,169,.12); transform: translateY(-2px); }
+
+    .sprava-card__head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .sprava-card__icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: var(--blue); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .sprava-card.card-epodatelna .sprava-card__icon { background: var(--green); }
+    .sprava-card__title { font-size: 0.97rem; font-weight: 700; color: var(--text); margin: 0; }
+
+    .sprava-card__tasks {
+      list-style: none; padding: 0; margin: 0 0 16px; flex: 1;
+      border-top: 2px solid var(--blue-mid);
+    }
+    .sprava-card__tasks li {
+      display: flex; align-items: baseline; gap: 9px;
+      padding: 6px 0;
+      font-size: 0.84rem; color: var(--muted); line-height: 1.4;
+    }
+    .sprava-card__tasks li::before {
+      content: ''; flex-shrink: 0; width: 5px; height: 5px;
+      border-radius: 50%; background: var(--blue); margin-top: 5px;
+    }
+    .sprava-card.card-epodatelna .sprava-card__tasks li::before { background: var(--green); }
+
+    .sprava-card__cta {
+      display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
+      font-size: 0.88rem; font-weight: 700; color: var(--blue) !important;
+      text-decoration: underline !important; text-underline-offset: 3px; padding: 9px 0;
+      transition: color .18s;
+    }
+    .sprava-card__cta:hover { color: var(--blue-dark) !important; }
+    .sprava-card.card-epodatelna .sprava-card__cta { color: var(--green) !important; }
+    .sprava-card.card-epodatelna .sprava-card__cta:hover { color: #028a58 !important; }
+
+    /* ===== HEADER 2×2 GRID ===== */
+    @media (min-width: 992px) {
+      #main-navbar > li > a { font-size: 0.83rem !important; padding-left: 8px !important; padding-right: 8px !important; }
+    }
+    /* Ukotvit header pro absolutní pozicování */
+    header.ly-header { position: relative !important; }
+    /* Skrýt původní menu-right flex položky, nechat jen toggler */
+    .menu-right { position: static !important; }
+
+    /* Grid absolutně vpravo v headeru */
+    .hdr-quad {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      gap: 4px;
+      z-index: 100;
+    }
+    /* Utility — EN a lupa */
+    .hdr-util {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+      color: #617384 !important; text-decoration: none !important;
+      padding: 4px 8px; line-height: 1; border-radius: 4px;
+    }
+    .hdr-util:hover { color: #005ca9 !important; background: #eef2fa; }
+    .hdr-util i { font-size: 0.9rem; }
+    /* CTA tlačítka */
+    .hdr-cta {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 700; line-height: 1;
+      padding: 8px 14px; border-radius: 4px;
+      text-decoration: none !important; white-space: nowrap;
+      transition: opacity .15s; border: none;
+    }
+    .hdr-cta:hover { opacity: .87; }
+    .hdr-cta--green { background: #03b675; color: #fff !important; }
+    .hdr-cta--blue  { background: #005ca9; color: #fff !important; }
+
+    /* ===== ROZCESTNÍKOVÝ HEADER (V2) ===== */
+    .ph-header { background: var(--white); border-bottom: 1px solid var(--blue-mid); }
+    .ph-header__top { padding: 16px 0; }
+    .ph-header__top-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .ph-header__logo img { height: 36px; display: block; }
+    .ph-header__actions { display: flex; align-items: center; gap: 10px; }
+
+    .ph-directory { background: var(--blue-light); padding: 28px 0 32px; }
+    .ph-directory__label {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.78rem; font-weight: 700; color: var(--muted);
+      letter-spacing: 1.2px; text-transform: uppercase; margin: 0 0 14px;
+    }
+    .ph-directory__label i { color: var(--blue); }
+    .ph-directory__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 991px) { .ph-directory__grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 575px) { .ph-directory__grid { grid-template-columns: 1fr; gap: 10px; } }
+
+    .ph-tile {
+      position: relative;
+      display: flex; align-items: center; gap: 16px;
+      background: var(--white); border-radius: var(--radius);
+      padding: 18px 20px; text-decoration: none !important;
+      border: 1.5px solid var(--blue-mid);
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+      transition: border-color .18s, box-shadow .18s, transform .15s;
+    }
+    .ph-tile:hover {
+      border-color: var(--blue); box-shadow: 0 10px 28px rgba(0,92,169,.12);
+      transform: translateY(-3px);
+    }
+    .ph-tile__icon {
+      width: 50px; height: 50px; border-radius: 14px;
+      background: var(--blue-light); display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; color: var(--blue); flex-shrink: 0;
+    }
+    .ph-tile__icon--green { background: rgba(3,182,117,.12); color: var(--green); }
+    .ph-tile__text { flex: 1; min-width: 0; }
+    .ph-tile__title {
+      display: block; font-size: 0.95rem; font-weight: 800; color: var(--text);
+      margin-bottom: 2px; letter-spacing: -.1px;
+    }
+    .ph-tile__desc { display: block; font-size: 0.81rem; color: var(--muted); line-height: 1.35; }
+    .ph-tile__arrow {
+      color: var(--blue); font-size: 0.85rem; flex-shrink: 0;
+      opacity: 0; transform: translateX(-6px);
+      transition: opacity .18s, transform .18s;
+    }
+    .ph-tile:hover .ph-tile__arrow { opacity: 1; transform: translateX(0); }
+    .ph-tile__badge {
+      position: absolute; top: -9px; right: 16px;
+      background: var(--green); color: #fff; font-size: 0.68rem; font-weight: 800;
+      padding: 3px 10px; border-radius: 100px; letter-spacing: .3px;
+      box-shadow: 0 2px 6px rgba(3,182,117,.35);
+    }
+  </style>
+</head>
+<body class="site">
+
+<header class="ly-header">
+                
+
+
+
+
+
+<div class="header-alert-wrapper">
+
+
+
+</div>
+
+<div class="header-panel-brand">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-expand-md md-navigation">
+<h1><a class="navbar-brand" href="/"><img alt="Domovská stránka UNIQA" src="assets/images/logo.svg" /></a></h1>
+
+<div class="md-navigation" id="navbarsExampleDefault">
+<div class="menu-cover">
+
+   <ul id="main-navbar" class="">
+      <li><a href="/auto/">Auto</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-6 submenu-simple">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/auto.png" /> Auto</h2>
+
+<ul class="links">
+	<li><a href="/povinne-ruceni/">Povinné ručení online</a></li>
+	<li><a href="/havarijni-pojisteni/">Havarijní pojištění online</a></li>
+	<li><a href="https://www.uniqa.cz/pojisteni-elektrokolobezky-a-elektrickych-vozidel/" rel="nofollow noopener noreferrer" target="_self">Pojištění elektrokoloběžky a&nbsp;drobných neregistrovaných vozidel</a></li>
+</ul>
+
+<p><a class="btn btn-success-hollow" href="https://www.uniqa.cz/online/pojisteni-vozidla/" rel="nofollow noopener noreferrer" onclick="return openTargetBlank(this, event)">Spočítat cenu</a></p>
+</div>
+
+<div class="col-md-6 static">
+<div>
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Pojištění%20vozidel">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+	<li><a href="https://rychleskody.uniqa.cz/iRSU/public/ss/search.xhtml">Seznam smluvních servisů</a></li>
+	<li><a href="/povinne-ruceni/zelena-karta/">Zelená karta online</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/povinne-ruceni/">Povinné ručení online - POV (kalkulačka)</a></li>
+         <li><a href="/havarijni-pojisteni/">Havarijní pojištění - Kasko (online kalkulačka)</a></li>
+         <li><a href="/pojisteni-elektrokolobezky-a-elektrickych-vozidel/">Pojištění elektrokoloběžky a elektrických vozítek</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)">Cestování</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-6 submenu-simple">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/cestovanie.png" /> Cestování</h2>
+
+<ul class="links">
+	<li><a href="/cestovni-pojisteni/">Cestovní pojištění</a></li>
+	<li><a href="/rocni-cestovni-pojisteni/">Roční cestovní pojištění</a></li>
+</ul>
+
+<p><a class="btn btn-success-hollow" href="https://cesty.uniqa.cz/Web#cestovni" rel="nofollow noopener noreferrer" onclick="return openTargetBlank(this, event)">Spočítat cenu</a></p>
+</div>
+
+<div class="col-md-6 static">
+<div>
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Cestovní%20pojištění">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+	<li>&nbsp;</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/cestovni-pojisteni/">Cestovní pojištění s až 50% slevou – rychle a online</a></li>
+         <li><a href="/rocni-cestovni-pojisteni/">Roční cestovní pojištění se slevou už od 20 %</a></li>
+      </ul>
+      </li>
+      <li><a href="/majetek/">Majetek</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-6 submenu-simple">
+<h2><img alt="" class="img-fluid " src="https://www.uniqa.cz/images/ikony_megamenu/majetok.png?v=1675342053" />Majetek</h2>
+
+<ul class="links">
+	<li><a href="/pojisteni-nemovitosti-domacnosti/">Pojištění nemovitosti a&nbsp;domácnosti online</a></li>
+</ul>
+
+<p><a class="btn btn-success-hollow" href="https://www.uniqa.cz/online/pojisteni-majetku/" rel="nofollow noopener noreferrer" onclick="return openTargetBlank(this, event)">Spočítat cenu</a></p>
+</div>
+
+<div class="col-md-6 static">
+<div>
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Pojištění%20majetku%20a%20odpovědnosti">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+	<li><a href="/majetek-indexace/" onclick="return openTargetBlank(this, event)">Majetek indexace</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/majetek-rozcestnik/">Produkty pojištění majetku</a></li>
+         <li><a href="/pojisteni-nemovitosti-a-domacnosti/">Pojištění nemovitosti a domácnosti | ONLINE kalkulačka</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)">Život a zdraví</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/zivot.png" /> Život</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="https://www.uniqa.cz/investicni-zivotni-pojisteni/" rel="nofollow noopener noreferrer" target="_self">Investiční životní pojištění</a></li>
+	<li><a href="https://www.uniqa.cz/rizikove-zivotni-pojisteni/" rel="nofollow noopener noreferrer" target="_self">Rizikové životní pojištění</a></li>
+	<li><a href="/produkty-rizikoveho-zivotniho-pojisteni/">Ostatní produkty (archiv)</a></li>
+	<li><a href="https://www.diagnose.me/cs/partner/uniqacz"><span style="color:#005ca9;">Asistenční služby Diagnose.me</span></a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Životní%20pojištění">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+	<li><a href="/dulezite-dokumenty/">Důležité odkazy vč. vývoje a&nbsp;srovnání fondů</a>&nbsp;&nbsp;</li>
+	<li><a href="/danove-zvyhodneni-zivotniho-pojisteni/">Daňové zvýhodnění</a>&nbsp;&nbsp;</li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/uraz.png" /> Úraz</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/urazove-pojisteni/">Úrazové pojištění</a></li>
+	<li><a href="/kratkodobe-urazove-pojisteni/">Krátkodobé úrazové pojištění</a></li>
+	<li><a href="/dlouhodobe-urazove-pojisteni/">Dlouhodobé úrazové pojištění</a></li>
+	<li><a href="https://www.diagnose.me/cs/partner/uniqacz"><span style="color:#005ca9;">Asistenční služby Diagnose.me</span></a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Úrazové%20pojištění">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0">
+<p class="note">Krátkodobé úrazové pojištění (365 dní)</p>
+</div>
+
+<div class="col-lg-7">
+<p><a class="btn btn-success-hollow" href="https://cesty.uniqa.cz/Web/sport#urazove">Sjednat online</a></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/zdravie.png" /> Zdraví</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/zdravotni-pojisteni-pro-cizince/">Zdravotní pojištění pro cizince</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Zdravotní%20pojištění">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="https://skody.uniqa.cz/">Hlášení škod a&nbsp;informace o&nbsp;stavu</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0">
+<p class="note">Zdravotní pojištění pro cizince</p>
+</div>
+
+<div class="col-lg-7">
+<p><a class="btn btn-success-hollow" href="https://insurance.aliveplatform.com/b2c/health.html?affiliateKey=49240480">Sjednat online</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/uraz.html">Úraz</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)">Investování</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/programy.png" />Pravidelné investování</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/investice/programy-pravidelneho-investovani/dlouhodoby-investicni-produkt-uniqa/">Dlouhodobý investiční produkt UNIQA</a></li>
+	<li><a href="/investice/programy-pravidelneho-investovani/tempo/">Tempo</a></li>
+	<li><a href="/investice/programy-pravidelneho-investovani/generace-x/">Generace X</a></li>
+	<li>Ostatní - historické:</li>
+	<li><a href="/investice/programy-pravidelneho-investovani/ostatni-historicke/ok-life-cycle/">OK life cycle</a></li>
+	<li><a href="/investice/programy-pravidelneho-investovani/ostatni-historicke/generace-next/">Generace neXt</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="https://moje.uniqa.cz/">Spravujte svoji smlouvu online</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/investicie.png" /> Investiční fondy</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/investice/investicni-fondy/prehled-fondu/">Přehled fondů</a></li>
+	<li><a href="/investice/investicni-fondy/konzervativni-fondy/">Konzervativní fondy</a></li>
+	<li><a href="/investice/investicni-fondy/dynamicke-fondy/">Dynamické fondy</a></li>
+	<li><a href="/investice/investicni-fondy/uniqa-selection-opportunities/">Balancované fondy</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé linky</h3>
+
+<ul>
+	<li><a href="https://moje.uniqa.cz/">Spravujte svoji smlouvu online</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col">
+<h2>Informace pro investora</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/investice/informace-pro-investora/jak-investovat/">Jak investovat</a></li>
+	<li><a href="/investice/informace-pro-investora/vyvoj-fondu/">Vývoj a&nbsp;srovnání fondů (grafy)</a></li>
+	<li><a href="/investice/informace-pro-investora/reporty-fondu/">Reporty fondů</a></li>
+	<li><a href="/investice/informace-pro-investora/reporty-fondu/#!tab-556">Informace o&nbsp;trzích</a></li>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Investice">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="https://moje.uniqa.cz/">Spravujte svoji smlouvu online</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/investice/">Investice</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)">Penze</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/dps.png" /> Doplňkové penzijní spoření</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/penze/doplnkove-penzijni-sporeni/">Doplňkové penzijní spoření</a></li>
+	<li><a href="/penze/vyvoj-fondu/">Vývoj fondů, srovnání (grafy) a&nbsp;reporty</a></li>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Penze">Formuláře a&nbsp;dokumenty</a></li>
+	<li><a href="/penze/pro-zamestnavatele/">Pro zaměstnavatele</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="https://penze.uniqa.cz/navyseni-pripojisteni">Navýšení příspěvku online</a></li>
+	<li><a href="https://moje.uniqa.cz/">Spravujte svoji smlouvu online</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0">
+<p class="note">&nbsp;</p>
+</div>
+
+<div class="col-lg-7">
+<p><a class="btn btn-success-hollow" href="https://penze.uniqa.cz/doplnkove-penzijni-sporeni">Sjednat online</a></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/romance-9.png" /> Penzijní připojištění&nbsp;</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/penze/penzijni-pripojisteni/">Penzijní připojištění</a></li>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Penze">Formuláře a&nbsp;dokumenty</a></li>
+	<li><a href="/penze/pro-zamestnavatele/">Pro zaměstnavatele</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="https://penze.uniqa.cz/navyseni-pripojisteni">Navýšení příspěvku online</a></li>
+	<li><a href="https://moje.uniqa.cz/">Spravujte svoji smlouvu online</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0">
+<p class="note">Online žádost o&nbsp;výplatu prostředků</p>
+</div>
+
+<div class="col-lg-7">
+<p><a class="btn btn-primary-hollow" href="https://www.uniqa.cz/penze/penzijni-pripojisteni/zadost-davku/" rel="nofollow noopener noreferrer" onclick="return openTargetBlank(this, event)">Požádat o&nbsp;výplatu prostředků</a></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-md-3 offset-md-1 submenu-simple-bottom">
+<p><img alt="" src="https://www.uniqa.cz/images/ilustracne_ikony/vorsorge-hell.svg?v=1623910122" style="width: 158px; height: 198px;" /></p>
+
+<p>Zanechte&nbsp;nám kontakt a&nbsp;my se&nbsp;vám co nejdříve&nbsp;ozveme.</p>
+
+<p><a class="btn btn-white" href="/kontakty/#heading-0">Sjednat si schůzku</a></p>
+&nbsp;
+
+<p>Navýšení příspěvku online</p>
+
+<p><a class="btn btn-success-hollow" href="https://penze.uniqa.cz/navyseni-pripojisteni">Navýšení příspěvku</a></p>
+</div>
+</div>
+</div>
+</section>
+
+<p>&nbsp;</p></div></div></li>
+         <li><a href="/penze/">Penze</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)">Úvěr</a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="container">
+<div class="row">
+<div class="col-md-5">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/uver.png" /> Úvěr</h2>
+
+<ul class="links">
+	<li><a href="/uver/">Spotřebitelský úvěr</a></li>
+</ul>
+</div>
+
+<div class="col-md-3 line static">
+<div class="links-box">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/uver/#heading-2">Partneři</a></li>
+</ul>
+</div>
+</div>
+
+<div class="col-md-3 offset-md-1">
+<p><img alt="" src="https://www.uniqa.cz/images/ilustracne_ikony/myuniqa-app.svg?v=1623910121" style="width: 78px; height: 161px;" /></p>
+
+<p>Navštivte nás nebo nás kontaktujte prostřednictvím některé&nbsp;z&nbsp;našich poboček.</p>
+
+<p><a class="btn btn-white" href="/kontakty/#heading-2">Vyhledat pobočku</a></p>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/uver/">Úvěr</a></li>
+      </ul>
+      </li>
+      <li><a href="javascript:void(0)"  class="other">Podnikatelé </a>
+      <ul>
+         <li class=" menu-info-li"><div class="menu-info"><span class="menu-info-headline">submenu</span><div class="menu-info-content"><section class="md-menu-section">
+<div class="container"><button class="submenu-back">Zpět</button>
+<div class="row">
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/mali_podnikatelia.png" />&nbsp;Malí a&nbsp;střední podnikatelé</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/mali-a-stredni-podnikatele/">Pojištění malých a&nbsp;středních podnikatelů</a></li>
+	<li><a href="/pojisteni-proti-preruseni-provozu/">Přerušení provozu</a></li>
+	<li><a href="/pojisteni-bytovych-domu/">Pojištění bytových domů</a><br />
+	&nbsp;</li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Podnikatelé">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><!--StartFragment--><a href="https://www.uniqa.cz/podnikatele-valorizace-aktualizace/" rel="nofollow noopener noreferrer" target="_self" title="Odkaz se otevře v novém okně">Podnikatelé / valorizace / aktualizace</a><!--EndFragment--></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col line">
+<h2><img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/podnikatelia.png" />&nbsp;Korporátní rizika</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/pojisteni-prumyslovych-rizik/">Pojištění průmyslových rizik</a></li>
+	<li><a href="/employee-benefits/">Employee benefits (Zaměstnanci)</a></li>
+	<li><a href="/skupinove-zivotni-pojisteni/">Skupinové životní pojištění</a></li>
+	<li><a href="/kolektivni-urazove-pojisteni/">Kolektivní úrazové pojištění</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé&nbsp;linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Podnikatelé">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+	<li><a href="/pojisteni-pro-velke-podniky-firmy/pojisteni-prepravy-seznam-vyloucenych-zemi/">Pojištění přepravy - seznam vyloučených zemí</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+
+<div class="col-md-4 submenu-col">
+<h2>&nbsp;<img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/cestovanie.png" />&nbsp;<img alt="" class="img-fluid" src="https://www.uniqa.cz/images/ikony_megamenu/auto.png" />&nbsp;Další</h2>
+
+<div class="submenu-content">
+<ul class="links">
+	<li><a href="/pojisteni-firemnich-vozidel/">Firemní vozidla</a></li>
+	<li><a href="/dealeri-autopojisteni/">Dealeři autopojištění</a></li>
+	<li><a href="/pojisteni-cestovnich-kancelari/">Cestovní kanceláře</a></li>
+	<li><a href="/podnikatele-ostatni-pojisteni/">Ostatní</a></li>
+	<li><a href="https://www.uniqa.cz/podnikatele/journal-corpo-insight/" rel="nofollow noopener noreferrer" target="_self">Journal CorpoINsight</a></li>
+	<li><a href="https://www.uniqa.cz/uniqa-sustainable-business-solutions/" rel="nofollow noopener noreferrer" target="_self">UNIQA Sustainable Business Solutions</a></li>
+</ul>
+
+<div class="links-box-left">
+<h3>Rychlé linky</h3>
+
+<ul>
+	<li><a href="/dokumenty-ke-stazeni/?filter=Podnikatelé">Formuláře a&nbsp;dokumenty ke smlouvám</a></li>
+</ul>
+</div>
+
+<div class="row">
+<div class="col-lg-5 pr-0"></div>
+
+<div class="col-lg-7"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></div></div></li>
+         <li><a href="/mali-stredni-podnikatele/">Malí a střední podnikatele</a></li>
+         <li><a href="/podnikatele/">Podnikatelé</a></li>
+         <li><a href="/podnikatele/aktualizace-pojisteni-odpovednosti/">Aktualizace pojištění odpovědnosti</a></li>
+         <li><a href="/podnikatele/podnikatele-valorizace-aktualizace/">Podnikatelé &#47; valorizáce &#47; aktualizace</a></li>
+         <li><a href="/uniqa-sustainable-business-solutions/">UNIQA Sustainable Business Solutions</a></li>
+      </ul>
+      </li>
+      <li><a href="/kontakty/"  class="menu-hidden">Kontakty</a>
+      <ul>
+         <li><a href="/kontakty/vitame-vase-podnety/">Vítáme vaše podněty</a></li>
+         <li><a href="/kontakty/whistleblower/">Whistleblower</a></li>
+      </ul>
+      </li>
+      <li><a href="/o-nas/"  class="menu-hidden">O nás</a>
+      <ul>
+         <li><a href="/o-nas/nas-pribeh-a-vize/"  class="icon-hands-hearth">Náš příběh a vize </a></li>
+         <li><a href="/o-nas/nasa-znacka-hodnoty/"  class="icon-shield">Naše značka a hodnoty </a></li>
+         <li><a href="/o-nas/nase-uspechy/"  class="icon-shield-person2">Naše úspěchy </a></li>
+         <li><a href="/o-nas/my-jsme-uniqa/"  class="icon-eur-hand">My jsme UNIQA </a></li>
+         <li><a href="/o-nas/profil-spolecnosti/"  class="icon-briefcase">Profil společnosti </a></li>
+         <li><a href="/o-nas/pro-media/"  class="icon-media-icon">Pro média</a></li>
+         <li><a href="/newsletter-novinky/">Newsletter a novinky</a></li>
+         <li><a href="/o-nas/financni-vysledky/"  class="icon-finance-chart">Finanční výsledky</a></li>
+         <li><a href="/osobni-udaje/"  class="icon-shield-paragraph">Ochrana osobních údajů</a></li>
+         <li><a href="/o-nas/spolecenska-odpovednost/">Společenská odpovědnost</a></li>
+         <li><a href="/o-nas/odpovedne-investovani/"  class="icon-finance-chart">Odpovědné investování </a></li>
+         <li><a href="/o-nas/slovnicek-pojmu/"  class="icon-home">Slovníček pojmů</a></li>
+      </ul>
+      </li>
+      <li><a href="/online/"  class="d-none menu-hidden">Online  </a>
+      <ul>
+         <li><a href="/online/pojisteni-vozidla/">Pojištění vozidla - online kalkulačka</a></li>
+         <li><a href="/online/pojisteni-majetku/">Pojištění majetku - kalkulačka online</a></li>
+         <li><a href="/online/cestovni-pojisteni/">Cestovní pojištění</a></li>
+      </ul>
+      </li>
+      <li class="pece-o-klienty-item active">
+         <a href="pece-o-klienty.html">Péče o klienty</a>
+         <ul class="pece-o-klienty-mobile">
+            <li><a href="pece-o-klienty.html#asistencni">Asistenční služby</a></li>
+            <li><a href="https://moje.uniqa.cz/" onclick="return openTargetBlank(this, event)">Klientský portál <i class="fas fa-external-link-alt fa-xs"></i></a></li>
+            <li><a href="pece-o-klienty.html#platby">Online platby</a></li>
+            <li><a href="pece-o-klienty.html#skody">Škody a pojistné události</a></li>
+            <li class="has-submenu"><a href="pece-o-klienty.html#sprava">Správa mých smluv a údajů</a>
+               <ul>
+                  <li><a href="#">Platby a finance <i class="fas fa-external-link-alt fa-xs"></i></a></li>
+                  <li><a href="#">Moje údaje a rodina <i class="fas fa-external-link-alt fa-xs"></i></a></li>
+                  <li><a href="#">Změny na smlouvě <i class="fas fa-external-link-alt fa-xs"></i></a></li>
+                  <li><a href="https://epodatelna.uniqa.cz/">Nové smlouvy</a></li>
+               </ul>
+            </li>
+            <li><a href="pece-o-klienty.html#zelena-karta">Zelená karta a dokumenty</a></li>
+            <li><a href="pece-o-klienty.html#kontakty">Kontakty a podpora</a></li>
+            <li><a href="pece-o-klienty.html#benefity">Benefity pro klienty</a></li>
+            <li><a href="pece-o-klienty.html#sjednat">Sjednat nové pojištění (15% sleva)</a></li>
+         </ul>
+      </li>
+   </ul>
+
+
+
+
+<div class="fast-links-mobile"><a class="my-uniqa btn btn-primary" href="https://moje.uniqa.cz/" onclick="return openTargetBlank(this, event)">Klientský portál</a> <a class="btn btn-success" href="https://skody.uniqa.cz/" onclick="return openTargetBlank(this, event)">Hlášení škod</a>
+
+<ul class="navbar-info-mobile">
+	<li><a class="contacts" href="/kontakty/">Kontakty</a></li>
+	<li><a class="online-services" href="https://moje.uniqa.cz/" target="_blank">Online služby</a>
+	<ul>
+		<li><a href="/online/">On-line pojištění</a></li>
+		<li><a href="https://platba.uniqa.cz/public">On-line platba</a></li>
+		<li><a href="https://moje.uniqa.cz/">moje UNIQA</a></li>
+		<li><a href="/dokumenty-ke-stazeni/">Dokumenty ke stažení</a></li>
+		<li><a href="https://epodatelna.uniqa.cz/">E-podatelna</a></li>
+		<li><a href="/povinne-ruceni/zelena-karta/">Zelená karta online</a></li>
+		<li><a href="/faq-casto-kladene-otazky/">Časté dotazy</a></li>
+		<li class="d-none"><a href="/virtualni-asistentka-niki/">Virtuální asistentka NIKI</a></li>
+		<li><a href="/meteouniqa/">MeteoUNIQA</a></li>
+		<!--<li><a href="/e-komunikace/">E-komunikace</a></li>-->
+		<li><a href="https://rozpisy.uniqa.cz/login" onclick="return openTargetBlank(this, event)">Správa rozpisů</a></li>
+	</ul>
+	</li>
+</ul>
+</div>
+</div>
+
+<div class="d-flex menu-right" style="align-items:center;">
+  <div class="hdr-quad">
+    <a class="hdr-cta hdr-cta--green" href="https://skody.uniqa.cz/" onclick="return openTargetBlank(this, event)">Hlášení škod</a>
+    <a href="/en/" class="hdr-util">EN</a>
+    <a class="my-uniqa hdr-cta hdr-cta--blue" href="https://moje.uniqa.cz/" onclick="return openTargetBlank(this, event)">Klientský portál</a>
+    <a class="toggle-search hdr-util" href="#" aria-label="Vyhledávání"><i class="fas fa-search"></i></a>
+  </div>
+  <ul id="navbar-info" style="display:none!important;visibility:hidden!important;"></ul>
+  <button aria-expanded="false" aria-label="Toggle navigation" class="d-block d-xl-none navbar-toggler mr-2 mr-lg-0" data-target="#navbarSupportedContent" data-toggle="collapse" id="toggle-navigation"><span class="menu-icon"><span></span><span></span><span></span></span></button>
+</div>
+</div>
+</nav>
+
+<div class="md-search-box">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a class="navbar-brand" href="/">
+	<img alt="UNIQA" src="assets/images/logo.svg">
+</a>
+<form class='webjetObfuscateForm' action='/components/form/spamprotectiondisable.jsp?backurl=%2F' method='post'><input type="hidden" name="__token" value="BAkxkxxhfPc9hyuwmoB3hwwcNA-9Cs55CLf0A4GX6OnnMu5TLBUfyZyJVdDx8BqQo5YanjVWtgPqzSGapJXXSfCnk1wvz-rxbq6kHxWwutOxUrsPYUDVLA==" /><script type="text/javascript">/* <![CDATA[ */var wjFrmJSTag="";wjFrmJSTag="et\">"+wjFrmJSTag;wjFrmJSTag="=\"g"+wjFrmJSTag;wjFrmJSTag="hod"+wjFrmJSTag;wjFrmJSTag="met"+wjFrmJSTag;wjFrmJSTag="l\" "+wjFrmJSTag;wjFrmJSTag="htm"+wjFrmJSTag;wjFrmJSTag="ni."+wjFrmJSTag;wjFrmJSTag="ava"+wjFrmJSTag;wjFrmJSTag="led"+wjFrmJSTag;wjFrmJSTag="vyh"+wjFrmJSTag;wjFrmJSTag="ky-"+wjFrmJSTag;wjFrmJSTag="led"+wjFrmJSTag;wjFrmJSTag="vys"+wjFrmJSTag;wjFrmJSTag="cz/"+wjFrmJSTag;wjFrmJSTag="=\"/"+wjFrmJSTag;wjFrmJSTag="ion"+wjFrmJSTag;wjFrmJSTag="act"+wjFrmJSTag;wjFrmJSTag="m\" "+wjFrmJSTag;wjFrmJSTag="For"+wjFrmJSTag;wjFrmJSTag="rch"+wjFrmJSTag;wjFrmJSTag="Sea"+wjFrmJSTag;wjFrmJSTag="all"+wjFrmJSTag;wjFrmJSTag="\"sm"+wjFrmJSTag;wjFrmJSTag="ss="+wjFrmJSTag;wjFrmJSTag="cla"+wjFrmJSTag;wjFrmJSTag="rm "+wjFrmJSTag;wjFrmJSTag="<fo"+wjFrmJSTag;wjFrmJSTag="m>"+wjFrmJSTag;wjFrmJSTag="<\/for"+wjFrmJSTag;document.write(wjFrmJSTag);/* ]]> */</script><noscript><div class='noprint'><strong><span style='color: red;'>UPOZORNĚNÍ:</span> Pro odeslání formuláře musíte mít povolen JavaScript. Pokud váš prohlížeč JavaScript nepodporuje můžete <a href='/components/form/spamprotectiondisable.jsp?backurl=%2F'>deaktivovat ochranu formulářů</a>.</strong></div></noscript>
+	<p>
+		
+		<input class="smallSearchInput" type="text" name="words" size="25" placeholder="Vyhledávání" id="searchWords" maxlength="512" autocomplete="off" />
+		<button type="submit">
+			<i class="far fa-search"></i>
+		</button>
+		<button class="far fa-times" id="js__close-search"></button>
+		<input type="hidden" name="__token" value="SjSmYwYZcSElP7cgV3fovKvJH2SSBbjQ_eUxjrGrHHFDrMVYheBW2Gf1bT2yBeQdxn8HEB5-fQu4rBMryCMONdOl-eG46tRUm7G4-oTB-4Vd0Q4xfBRNEA==" />
+	</p>
+</form>
+
+<div class="md-search-results">
+	<ul>
+
+	</ul>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+	var searchText = 'Vyhledávání'
+	var defaultText = 'Vyhledávání'
+	var timer = null;
+	$("#searchWords").keyup(function () {
+		clearTimeout(timer);
+		timer = setTimeout(doSearch, 500)
+	});
+
+	function doSearch() {
+		var query = $("#searchWords").val();
+
+		$.ajax({
+			type: 'GET',
+			url: '/public/rest/v1/search/cz/?query=' + query,
+			success: function (response) {
+				if (response.result) {
+					var hints = response.hints
+					if (hints.length == 0) {
+						$('.md-search-results').hide()
+						return
+					}
+					var html = '';
+					$.each(hints, function (key, value) {
+						html += '<li>';
+						html += '<a href="' + value.externalPath + '">' + value.title;
+						html += value.perex != "" ? '<i>'+ value.perex +'</i>' : '';
+						html += '</a>';
+						html += '</li>';
+					});
+					$('.md-search-results ul').html(html)
+					$('.md-search-results').show()
+				} else {
+					$('.md-search-results').hide()
+				}
+			}
+		})
+	}
+	$(document).click(function(event) {
+		var $target = $(event.target);
+		if(!$target.closest('.md-search-box').length && $('.md-search-box').is(":visible")) {
+			$('.md-search-results').hide();
+		}
+	});
+
+	$("#searchWords").focus(function () {
+		var text = $(this).val();
+		if(text == defaultText){
+			$(this).val("");
+		}else{
+			$(this).val(text);
+		}
+	});
+	$("#searchWords").blur(function () {
+		var text = $(this).val();
+		if(text == ""){
+			$(this).val('Vyhledávání');
+		}else{
+			$(this).val(text);
+		}
+	});
+	$("#js__close-search").on('click', function (){
+		$(".md-search-box").toggleClass("open");
+		$(".toggle-search").toggleClass("search-open");
+
+		return false;
+	});
+
+	//klik na moznost z autocomplete
+	$(".md-search-results ul").on('click', 'li', function (){
+		window.searchDataLayer($("#searchWords").val());
+	});
+
+});
+</script>
+
+
+
+</div>
+
+
+			</div>
+		</div>
+	</div>
+	<hr>
+</div>
+            </header>
+
+  <nav class="ph-directory" aria-label="Rozcestník péče o klienty">
+    <div class="container">
+      <p class="ph-directory__label"><i class="fas fa-compass"></i> Co potřebujete vyřešit?</p>
+      <div class="ph-directory__grid">
+        <a href="#sprava" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-file-contract"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Správa smluv a&nbsp;údajů</span>
+            <span class="ph-tile__desc">Platby, údaje, změny na smlouvě</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="https://skody.uniqa.cz/" class="ph-tile" onclick="return openTargetBlank(this, event)">
+          <span class="ph-tile__icon ph-tile__icon--green"><i class="fas fa-car-crash"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Hlášení škody</span>
+            <span class="ph-tile__desc">Nahlaste škodu online</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="https://www.uniqa.cz/kontakty/#asistence" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-headset"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Asistenční služby</span>
+            <span class="ph-tile__desc">Pomoc na cestách i&nbsp;doma 24/7</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="https://platba.uniqa.cz/public" class="ph-tile" onclick="return openTargetBlank(this, event)">
+          <span class="ph-tile__icon"><i class="fas fa-credit-card"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Online platby</span>
+            <span class="ph-tile__desc">Zaplaťte pojistné bez přihlášení</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="https://www.uniqa.cz/povinne-ruceni/zelena-karta/" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-id-card"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Zelená karta a&nbsp;dokumenty</span>
+            <span class="ph-tile__desc">Stáhněte si zelenou kartu</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="https://www.uniqa.cz/dokumenty-ke-stazeni/" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-file-download"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Dokumenty ke stažení</span>
+            <span class="ph-tile__desc">Formuláře a smluvní dokumentace</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="#sjednat" class="ph-tile">
+          <span class="ph-tile__badge">−15&nbsp;%</span>
+          <span class="ph-tile__icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Nové pojištění se&nbsp;slevou</span>
+            <span class="ph-tile__desc">Sleva 15&nbsp;% pro stávající klienty</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="#benefity" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-gift"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Benefity pro klienty</span>
+            <span class="ph-tile__desc">MeteoUNIQA, Dr. Digital a&nbsp;další</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+        <a href="#kontakty" class="ph-tile">
+          <span class="ph-tile__icon"><i class="fas fa-phone"></i></span>
+          <span class="ph-tile__text">
+            <span class="ph-tile__title">Kontakty a podpora</span>
+            <span class="ph-tile__desc">Telefon, pobočky, časté dotazy</span>
+          </span>
+          <i class="fas fa-arrow-right ph-tile__arrow"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<main id="main-content" class="ly-content-wrapper">
+  <div class="ly-content">
+
+<!-- ====== SPRÁVA MÝCH SMLUV A ÚDAJŮ ====== -->
+    <section class="pece-section sprava-section" id="sprava">
+      <div class="container">
+
+        <div class="sprava-header">
+          <div>
+            <h2 id="heading-0">Veškerou správu smluv vyřešíte v&nbsp;moje UNIQA</h2>
+            <p class="section-lead">Vyberte co potřebujete vyřešit — přesměrujeme vás na správné místo.</p>
+          </div>
+          <a href="https://moje.uniqa.cz/" class="sprava-login-btn" onclick="return openTargetBlank(this, event)">
+            <i class="fas fa-user-circle"></i> Přihlásit se do moje UNIQA
+          </a>
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="sprava-card">
+              <div class="sprava-card__head">
+                <div class="sprava-card__icon"><i class="fas fa-wallet"></i></div>
+                <h3 class="sprava-card__title">Platby a finance</h3>
+              </div>
+              <ul class="sprava-card__tasks">
+                <li>Zaplatit pojistné</li>
+                <li>Změnit způsob placení</li>
+                <li>Aktualizovat bankovní účet</li>
+                <li>Potvrzení pro daňové přiznání</li>
+              </ul>
+              <a href="https://moje.uniqa.cz/" class="sprava-card__cta" onclick="return openTargetBlank(this, event)">
+                Přejít do moje UNIQA <i class="fas fa-arrow-right fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="sprava-card">
+              <div class="sprava-card__head">
+                <div class="sprava-card__icon"><i class="fas fa-users"></i></div>
+                <h3 class="sprava-card__title">Moje údaje a rodina</h3>
+              </div>
+              <ul class="sprava-card__tasks">
+                <li>Změnit kontaktní údaje</li>
+                <li>Přidat osobu do pojištění</li>
+                <li>Změnit obmyšlenou osobu</li>
+              </ul>
+              <a href="https://moje.uniqa.cz/" class="sprava-card__cta" onclick="return openTargetBlank(this, event)">
+                Přejít do moje UNIQA <i class="fas fa-arrow-right fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="sprava-card">
+              <div class="sprava-card__head">
+                <div class="sprava-card__icon"><i class="fas fa-file-alt"></i></div>
+                <h3 class="sprava-card__title">Změny na smlouvě</h3>
+              </div>
+              <ul class="sprava-card__tasks">
+                <li>Přehled krytí a limitů</li>
+                <li>Upravit pojistné částky</li>
+                <li>Připojistit další riziko</li>
+                <li>Zrušit smlouvu</li>
+              </ul>
+              <a href="https://moje.uniqa.cz/" class="sprava-card__cta" onclick="return openTargetBlank(this, event)">
+                Přejít do moje UNIQA <i class="fas fa-arrow-right fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="sprava-card card-epodatelna">
+              <div class="sprava-card__head">
+                <div class="sprava-card__icon"><i class="fas fa-folder-open"></i></div>
+                <h3 class="sprava-card__title">Doložení dokumentů</h3>
+              </div>
+              <ul class="sprava-card__tasks">
+                <li>Doložit dokumenty ke smlouvě</li>
+                <li>Zaslat podklady přes E-podatelnu</li>
+              </ul>
+              <a href="https://epodatelna.uniqa.cz/" class="sprava-card__cta" onclick="return openTargetBlank(this, event)">
+                Přejít na E-podatelnu <i class="fas fa-arrow-right fa-xs"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SJEDNAT NOVÉ POJIŠTĚNÍ ====== -->
+    <section class="pece-section" id="sjednat">
+      <div class="container">
+        <div class="promo-banner">
+          <div class="promo-banner__left">
+            <span class="promo-badge"><i class="fas fa-percent"></i>&nbsp; Věrnostní sleva 15&nbsp;%</span>
+            <h2 id="heading-2">Sjednat nové pojištění</h2>
+            <p>Jako stávající klient UNIQA máte nárok na <strong>slevu 15&nbsp;%</strong> při sjednání nového pojištění online. Využijte výhodu věrnostního programu.</p>
+          </div>
+          <a class="btn-white" href="https://www.uniqa.cz/sjednani-on-line/">
+            Sjednat se slevou <i class="fas fa-arrow-right fa-xs"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PÉČE O KLIENTY + BENEFITY ====== -->
+    <section class="pece-section bg-light" id="benefity">
+      <div class="container">
+
+        <!-- Péče o klienty: úvod -->
+        <div class="pece-hero__top">
+          <div class="pece-hero__text">
+            <p class="pece-hero__overline">Péče o klienty</p>
+            <h1>Jsme tady<br>pro vás i vaši <em>rodinu</em></h1>
+            <p class="pece-hero__sub">UNIQA stojí po boku svých klientů v každé životní situaci. Ať jde o ochranu majetku, zdraví nebo budoucnost celé rodiny&nbsp;— staráme se, abyste měli klid.</p>
+            <div class="pece-hero__trust">
+              <span class="pece-hero__trust-item"><i class="fas fa-check-circle"></i> Více než 3 miliony klientů</span>
+              <span class="pece-hero__trust-item"><i class="fas fa-check-circle"></i> Průměrný klient je s námi více než 10 let</span>
+              <span class="pece-hero__trust-item"><i class="fas fa-check-circle"></i> Jsme tady pro rodiny</span>
+            </div>
+          </div>
+          <div class="pece-hero__photo" id="hero-photo">
+            <img src="hero.webp" alt="Rodina chráněná UNIQA">
+            <div class="pece-hero__photo-badge">
+              <i class="fas fa-heart"></i> Lepší život společně
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h2 id="heading-3">Benefity pro klienty</h2>
+          <p class="section-lead">Exkluzivní výhody a služby zdarma ke vašemu pojištění.</p>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: déšť / počasí / příroda -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/storm/600/420')">
+              <div class="benefit-card__body">
+                <h3>MeteoUNIQA</h3>
+                <p>Ochrana majetku a zdraví před nepříznivým počasím. Zdarma k pojištění majetku, sleva 5 %.</p>
+                <a class="btn-benefit" href="https://www.uniqa.cz/meteouniqa/">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: lékař / zdraví / konzultace -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/doctor/600/420')">
+              <div class="benefit-card__body">
+                <h3>Diagnose.me</h3>
+                <p>Online zdravotní poradna dostupná 24/7. Konzultace se specialisty z pohodlí domova.</p>
+                <a class="btn-benefit" href="#">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: vlak / cestování -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/train/600/420')">
+              <div class="benefit-card__body">
+                <h3>Leo Express</h3>
+                <p>Výhodné cestování vlakem pro klienty UNIQA. Slevy na jízdné po celé ČR.</p>
+                <a class="btn-benefit" href="#">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: digitální / tech / video hovor -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/laptop/600/420')">
+              <div class="benefit-card__body">
+                <h3>Dr. Digital</h3>
+                <p>Videokonzultace s lékařem z pohodlí domova. Rychlá lékařská pomoc online.</p>
+                <a class="btn-benefit" href="#">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: navigace / mapa / cesta -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/journey/600/420')">
+              <div class="benefit-card__body">
+                <h3>Smart Guide</h3>
+                <p>Inteligentní průvodce pro vaši bezpečnost na cestách i doma.</p>
+                <a class="btn-benefit" href="#">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4 mb-4">
+            <!-- Foto: rodina / domov -->
+            <div class="benefit-card" style="background-image: url('https://picsum.photos/seed/family/600/420')">
+              <div class="benefit-card__body">
+                <h3>Rodinný asistent</h3>
+                <p>Kompletní asistence pro celou rodinu — právní poradna, domácí opravy a další.</p>
+                <a class="btn-benefit" href="#">Zjistit více <i class="fas fa-arrow-right fa-xs"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== KONTAKTY A PODPORA ====== -->
+    <section class="pece-section" id="kontakty">
+      <div class="container">
+        <div class="mb-4">
+          <h2 id="heading-4">Kontakty a podpora</h2>
+        </div>
+        <div class="row">
+
+          <div class="col-md-6 mb-4">
+            <div class="kontakt-card">
+              <div class="kontakt-card__icon"><i class="fas fa-phone"></i></div>
+              <div>
+                <h3>Telefonická podpora</h3>
+                <p>Zákaznická linka UNIQA, po–pá 8–18 hod.</p>
+                <a class="btn btn-primary mt-2" href="tel:+420488125125">+420 488 125 125</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="kontakt-card">
+              <div class="kontakt-card__icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div>
+                <h3>Pobočky a poradci</h3>
+                <p>Najděte nejbližší pobočku nebo kontaktujte svého poradce.</p>
+                <a class="btn btn-primary-hollow mt-2" href="https://www.uniqa.cz/kontakty/sit-pobocek/">Najít pobočku</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="kontakt-card">
+              <div class="kontakt-card__icon"><i class="fas fa-question-circle"></i></div>
+              <div>
+                <h3>Časté dotazy</h3>
+                <p>Odpovědi na nejčastěji kladené otázky klientů.</p>
+                <a class="btn btn-primary-hollow mt-2" href="https://www.uniqa.cz/faq-casto-kladene-otazky/">Přejít na FAQ</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="kontakt-card">
+              <div class="kontakt-card__icon"><i class="fas fa-envelope"></i></div>
+              <div>
+                <h3>E-podatelna</h3>
+                <p>Zašlete nám dokumenty nebo dotaz elektronicky.</p>
+                <a class="btn btn-primary-hollow mt-2" href="https://epodatelna.uniqa.cz/" onclick="return openTargetBlank(this, event)">Otevřít E-podatelnu</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="assets/js/jquery-masonry.js"></script>
+<script src="assets/js/uniqa-bundle.js"></script>
+
+<script>
+// Sticky scroll nav active state
+$(document).ready(function() {
+  var sections = $('section[id], h2[id]');
+  var navLinks = $('.navbar-anchor a');
+  $(window).on('scroll', function() {
+    var scrollPos = $(document).scrollTop() + 120;
+    sections.each(function() {
+      var top = $(this).offset().top;
+      var bottom = top + $(this).outerHeight();
+      var id = $(this).attr('id');
+      var anchor = id;
+      // map heading IDs to anchor nav hrefs
+      if (scrollPos >= top && scrollPos <= bottom) {
+        navLinks.parent().removeClass('active');
+        navLinks.filter('[href="#' + anchor + '"]').parent().addClass('active');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
